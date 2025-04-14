@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda de Zapatos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Estilos generales */
+body {
+    background-image: url('https://img.freepik.com/vector-gratis/fondo-negro-foco-luz_1017-27230.jpg?semt=ais_hybrid&w=740');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilos del encabezado */
+header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.7);
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    transition: all 0.4s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+header:hover {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    transform-origin: left center;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+}
+
+nav {
+    display: flex;
+    gap: 15px;
+}
+
+nav a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 8px 15px;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+nav a:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: white;
+    transition: width 0.3s ease;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+/* Título principal - con animación de entrada */
+.main-title {
+    margin-top: 100px;
+    padding-top: 20px;
+    font-size: 48px;
+    font-weight: 700;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    animation: fadeInDown 1s ease-out;
+    text-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+    letter-spacing: 2px;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Contenedor de productos - con animación de entrada */
+.products-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 25px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+    animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Tarjetas de producto - con mejores animaciones */
+.product-card {
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    transform: translateY(0);
+}
+
+.product-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, white, rgb(250, 249, 249));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+}
+
+.product-card:hover::before {
+    transform: scaleX(1);
+}
+
+.product-card img {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: all 0.4s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.product-card:hover img {
+    transform: scale(1.1);
+}
+
+.product-name {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 15px 0 5px 0;
+    font-family: 'Montserrat', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.product-card:hover .product-name {
+    color: white;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+.product-price {
+    color: #4CAF50;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.product-card:hover .product-price {
+    color: white;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+    transform: scale(1.1);
+}
+
+/* Botón flotante del carrito - con animaciones */
+.cart-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 65px;
+    height: 65px;
+    background: linear-gradient(145deg, #4CAF50, #2E7D32);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1002;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.cart-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.cart-button i {
+    color: white;
+    font-size: 26px;
+    transition: transform 0.3s ease;
+}
+
+.cart-button:hover i {
+    transform: translateY(-3px);
+}
+
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: linear-gradient(145deg, #f44336, #d32f2f);
+    color: white;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.cart-button:hover .cart-count {
+    transform: scale(1.2);
+}
+
+/* Notificación de carrito - con animación mejorada */
+.cart-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 95px;
+    background: linear-gradient(145deg, #4CAF50, #2E7D32);
+    color: white;
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-weight: 500;
+    z-index: 1001;
+    animation: slideInAndBounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes slideInAndBounce {
+    0% {
+        transform: translateX(100px);
+        opacity: 0;
+    }
+    70% {
+        transform: translateX(-10px);
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Estilos para los Modales - mejoramos la apariencia */
+.modal-content {
+    background-color: white;
+    color: #333;
+    /* Centrado exacto vertical y horizontal */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    /* Tamaño más compacto */
+    width: 90%;
+    max-width: 400px;
+    padding: 20px;
+    
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
+    animation: modalPop 0.3s ease-out;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Animación de "pop" para que el modal aparezca desde el centro */
+@keyframes modalPop {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Contenido del modal del carrito - mismo estilo centrado */
+.cart-modal-content {
+    background-color: white;
+    /* Centrado exacto vertical y horizontal */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    /* Tamaño más compacto */
+    width: 90%;
+    max-width: 400px;
+    padding: 20px;
+    
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
+    animation: modalPop 0.3s ease-out;
+    font-family: 'Poppins', sans-serif;
+    max-height: 80vh; /* Para que no sea demasiado alto en pantallas pequeñas */
+    overflow-y: auto; /* Permitir scroll solo si es necesario */
+}
+/* Estilo del modal (el contenedor principal) */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Cambiado de auto a hidden */
+    background-color: rgba(0,0,0,0.85);
+    /* Quitamos el padding-top que podría estar desplazando el modal hacia abajo */
+}
+
+
+/* Ajustar el tamaño de la imagen dentro del modal */
+#modal-image-360 {
+    width: 100%;
+    max-width: 250px; /* Tamaño más pequeño */
+    height: auto;
+    border-radius: 8px;
+    margin: 0 auto 15px auto; /* Centrado horizontal */
+    display: block;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Ajustar el slider */
+#modal-slider {
+    width: 80%;
+    margin: 10px auto;
+    cursor: pointer;
+    display: block;
+}
+
+#modal-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#modal-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+#modal-buy-button {
+    display: block;
+    width: 70%;
+    padding: 15px 20px;
+    margin: 20px auto 0 auto;
+    background: linear-gradient(145deg, #4CAF50, #2E7D32);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+}
+
+#modal-buy-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4);
+}
+
+/* Contenido del modal del carrito - mismo estilo centrado */
+.cart-modal-content {
+    background-color: white;
+    /* Centrado exacto vertical y horizontal */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    /* Tamaño más compacto */
+    width: 90%;
+    max-width: 400px;
+    padding: 20px;
+    
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
+    animation: modalPop 0.3s ease-out;
+    font-family: 'Poppins', sans-serif;
+    max-height: 80vh; /* Para que no sea demasiado alto en pantallas pequeñas */
+    overflow-y: auto; /* Permitir scroll solo si es necesario */
+}
+/* Estilo del modal (el contenedor principal) */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Cambiado de auto a hidden */
+    background-color: rgba(0,0,0,0.85);
+    /* Quitamos el padding-top que podría estar desplazando el modal hacia abajo */
+}
+
+
+/* Ajustar el tamaño de la imagen dentro del modal */
+#modal-image-360 {
+    width: 100%;
+    max-width: 250px; /* Tamaño más pequeño */
+    height: auto;
+    border-radius: 8px;
+    margin: 0 auto 15px auto; /* Centrado horizontal */
+    display: block;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Ajustar el slider */
+#modal-slider {
+    width: 80%;
+    margin: 10px auto;
+    cursor: pointer;
+    display: block;
+}
+
+#modal-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #4CAF50;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#modal-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+#modal-buy-button {
+    display: block;
+    width: 70%;
+    padding: 15px 20px;
+    margin: 20px auto 0 auto;
+    background: linear-gradient(145deg, #4CAF50, #2E7D32);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+}
+
+#modal-buy-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4);
+}
+
+/* Estilo para el modal del carrito - vertical a la izquierda */
+.cart-modal-content {
+    background-color: white;
+    /* Posicionamiento a la izquierda */
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    transform: none; /* Eliminamos la transformación de centrado */
+    
+    /* Dimensiones para ocupar toda la altura */
+    width: 320px;
+    max-width: 90%;
+    height: 100%;
+    padding: 20px;
+    
+    border-radius: 0 12px 12px 0; /* Solo redondeamos el lado derecho */
+    box-shadow: 5px 0 25px rgba(0, 0, 0, 0.4);
+    animation: slideInLeft 0.3s ease-out;
+    font-family: 'Poppins', sans-serif;
+    overflow-y: auto; /* Permitir scroll */
+    
+    /* Organización del contenido en vertical */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Animación de entrada desde la izquierda */
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Ajuste para el título del carrito */
+.cart-modal-content h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    color: #333;
+    text-align: center;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+/* Contenedor de items del carrito - ocupa espacio disponible */
+.cart-items {
+    flex: 1; /* Ocupa el espacio disponible */
+    overflow-y: auto;
+    margin-bottom: 15px;
+    padding-right: 10px;
+}
+
+/* Estilo vertical para cada item del carrito */
+.cart-item {
+    display: flex;
+    flex-direction: column; /* Disposición vertical para cada item */
+    align-items: center;
+    padding: 15px 10px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    position: relative;
+}
+
+.cart-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-bottom: 10px; /* Espacio entre imagen y texto */
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.cart-item-details {
+    width: 100%;
+    text-align: center;
+}
+
+.cart-item-name {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.cart-item-price {
+    color: #4CAF50;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.remove-item {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: #f44336;
+    background-color: rgba(244, 67, 54, 0.1);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Espacio fijo abajo para total y botón */
+.cart-footer {
+    margin-top: auto; /* Empuja al final del contenedor flex */
+}
+
+.cart-total {
+    padding-top: 15px;
+    border-top: 2px solid #f0f0f0;
+    text-align: right;
+    font-weight: 700;
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.checkout-button {
+    width: 100%;
+    padding: 14px;
+    border-radius: 25px;
+    font-size: 16px;
+    background: #25D366; /* Color oficial de WhatsApp */
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.checkout-button i {
+    font-size: 20px;
+}
+
+.checkout-button:hover {
+    background: #128C7E; /* Color más oscuro de WhatsApp al hover */
+}
+
+/* Importante: eliminar cualquier otra animación o transformación */
+.checkout-button::before,
+.checkout-button::after {
+    display: none;
+}
+</style>
+</head>
+<body>
+    <header>
+        <div class="logo">Zapatos INCES</div>
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="https://api.whatsapp.com/send/?phone=%2B5804129983853&text&type=phone_number&app_absent=0" target="_blank">Contáctanos</a>
+        </nav>
+    </header>
+
+    <!-- Botón flotante del carrito (fuera del modal) -->
+    <div class="cart-button" onclick="openCartModal()">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count">0</span>
+    </div>
+
+    <div class="main-title" id="inicio">Bienvenido a la Tienda de Zapatos</div>
+
+    <section class="products-container" id="productos">
+            <div class="product-card"
+                data-name="adidas AE 1 Silver Metallic"
+                data-price="$100"
+                data-img-src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2_L5pJly0Dl16IqLYw_sccUfm6ZxeAP2ZCCCh4GF9fuIzqJtMehCdlZ8hVZn-XP5C6qs&usqp=CAU"
+                data-360-base-url="https://images.stockx.com/360/adidas-AE-1-Silver-Metallic/Images/adidas-AE-1-Silver-Metallic/Lv2/img"
+                data-360-frames="36">
+                <img src="https://images.stockx.com/360/adidas-AE-1-Silver-Metallic/Images/adidas-AE-1-Silver-Metallic/Lv2/img01.jpg?w=480&q=60&dpr=1&updated_at=1740691353&h=320" alt="adidas AE 1 Silver Metallic">
+                <div class="product-name">adidas AE 1 Silver Metallic</div>
+                <div class="product-price">$100</div>
+            </div>
+
+            <div class="product-card"
+    data-name="Nike Kyrie 4 Confetti"
+    data-price="$250"
+    data-img-src="https://preview.redd.it/sgelj296vt401.jpg?width=1080&crop=smart&auto=webp&s=8fcd019eb10be8d2597daec354300411fe190168"
+    data-360-base-url="https://images.stockx.com/360/Nike-Kyrie-4-Confetti/Images/Nike-Kyrie-4-Confetti/Lv2/img"
+    data-360-frames="36">
+    <img src="https://images.stockx.com/360/Nike-Kyrie-4-Confetti/Images/Nike-Kyrie-4-Confetti/Lv2/img01.jpg?w=480&q=60&dpr=1&updated_at=1635278476&h=320" alt="Nike Kyrie 4 Confetti">
+    <div class="product-name">Nike Kyrie 4 Confetti</div>
+    <div class="product-price">$250</div>
+</div>
+
+<div class="product-card"
+data-name="Nike Kobe 6 Protro Reverse Grinch"
+data-price="$500"
+data-img-src="https://images.stockx.com/360/Nike-Kobe-6-Protro-Reverse-Grinch/Images/Nike-Kobe-6-Protro-Reverse-Grinch/Lv2/img01.jpg?w=480&q=60&dpr=1&updated_at=1701444492&h=320"
+data-360-base-url="https://images.stockx.com/360/Nike-Kobe-6-Protro-Reverse-Grinch/Images/Nike-Kobe-6-Protro-Reverse-Grinch/Lv2/img"
+data-360-frames="36">
+<img src="https://images.stockx.com/360/Nike-Kobe-6-Protro-Reverse-Grinch/Images/Nike-Kobe-6-Protro-Reverse-Grinch/Lv2/img01.jpg?w=480&q=60&dpr=1&updated_at=1701444492&h=320" alt="Nike Kobe 6 Protro Reverse Grinch">
+<div class="product-name">Nike Kobe 6 Protro Reverse Grinch</div>
+<div class="product-price">$500</div>
+</div>
+
+            <div class="product-card"
+                data-name="Puma LaMelo Ball MB.03 Toxic"
+                data-price="$180"
+                data-img-src="https://modozapatillas.com/upload/productos/galeria/normal/puma-lamelo-ball-mb03-toxic-2fba9547f91cd8d8bf0601fb2cb61dff.jpg"
+                data-360-base-url="https://images.stockx.com/360/Puma-LaMelo-Ball-MB03-Toxic/Images/Puma-LaMelo-Ball-MB03-Toxic/Lv2/img"
+                data-360-frames="36">
+                <img src="https://images.stockx.com/360/Puma-LaMelo-Ball-MB03-Toxic/Images/Puma-LaMelo-Ball-MB03-Toxic/Lv2/img01.jpg?w=480&q=60&dpr=1&updated_at=1699460747&h=320" alt="Puma LaMelo Ball MB.03 Toxic">
+                <div class="product-name">Puma LaMelo Ball MB.03 Toxic</div>
+                <div class="product-price">$180</div>
+            </div>
+
+            <div class="product-card"
+    data-name="Puma LaMelo Ball MB.03 Dexter's Laboratory"
+    data-price="$200"
+    data-img-src="https://images.stockx.com/360/Puma-LaMelo-Ball-MB03-Dexters-Laboratory/Images/Puma-LaMelo-Ball-MB03-Dexters-Laboratory/Lv2/img01.jpg?w=480&q=60&dpr=1&updated_at=1703866888&h=320"
+    data-360-base-url="https://images.stockx.com/360/Puma-LaMelo-Ball-MB03-Dexters-Laboratory/Images/Puma-LaMelo-Ball-MB03-Dexters-Laboratory/Lv2/img"
+    data-360-frames="36">
+    <img src="https://images.stockx.com/360/Puma-LaMelo-Ball-MB03-Dexters-Laboratory/Images/Puma-LaMelo-Ball-MB03-Dexters-Laboratory/Lv2/img01.jpg?w=480&q=60&dpr=1&updated_at=1703866888&h=320" alt="Puma LaMelo Ball MB.03 Dexter's Laboratory">
+    <div class="product-name">Puma LaMelo Ball MB.03 Dexter's Laboratory</div>
+    <div class="product-price">$200</div>
+</div>
+
+
+            <div class="product-card"
+    data-name="Puma LaMelo Ball MB.02 Rick & Morty Adventures"
+    data-price="$170"
+    data-img-src="https://mariourbanstore.com/cdn/shop/products/image_28b266c8-378b-48e0-9f30-cb5014f44489.jpg?v=1679772295"
+    data-360-base-url="https://images.stockx.com/360/Puma-LaMelo-Ball-MB02-Rick-and-Morty-Adventures/Images/Puma-LaMelo-Ball-MB02-Rick-and-Morty-Adventures/Lv2/img"
+    data-360-frames="36">
+    <img src="https://images.stockx.com/360/Puma-LaMelo-Ball-MB02-Rick-and-Morty-Adventures/Images/Puma-LaMelo-Ball-MB02-Rick-and-Morty-Adventures/Lv2/img01.jpg?w=480&q=60&dpr=1&updated_at=1676643777&h=320" alt="Puma LaMelo Ball MB.02 Rick & Morty Adventures">
+    <div class="product-name">Puma LaMelo Ball MB.02 Rick & Morty Adventures</div>
+    <div class="product-price">$170</div>
+           </div>
+</qodoArtifact>
+
+            <div class="product-card"
+                data-name="Under Armour Curry Flow 12 Shooting Star"
+                data-price="$150"
+                data-img-src="https://underarmour.scene7.com/is/image/Underarmour/3027632-100_PAIR?rp=standard-30pad|pdpMainDesktop&scl=1&fmt=jpg&qlt=85&resMode=sharp2&cache=on,on&bgc=f0f0f0&wid=566&hei=708&size=536,688"
+                data-360-base-url="https://images.stockx.com/360/Under-Armour-Curry-Flow-12-Shooting-Star/Images/Under-Armour-Curry-Flow-12-Shooting-Star/Lv2/img"
+                data-360-frames="36">
+                <img src="https://images.stockx.com/360/Under-Armour-Curry-Flow-12-Shooting-Star/Images/Under-Armour-Curry-Flow-12-Shooting-Star/Lv2/img01.jpg?w=480&q=57&dpr=2&updated_at=1738167744&h=320" alt="Under Armour Curry Flow 12 Shooting Star">
+                <div class="product-name">Under Armour Curry Flow 12 Shooting Star</div>
+                <div class="product-price">$150</div>
+            </div>
+
+            <div class="product-card"
+                data-name="Nike LeBron 22 Mogul"
+                data-price="$100"
+                data-img-src="https://images.stockx.com/images/Nike-LeBron-22-Mogul-Product.jpg?fit=fill&bg=FFFFFF&w=1200&h=857&q=60&dpr=1&trim=color&updated_at=1740759245"
+                data-360-base-url="https://images.stockx.com/360/Nike-LeBron-22-Mogul/Images/Nike-LeBron-22-Mogul/Lv2/img"
+                data-360-frames="36">
+                <img src="https://images.stockx.com/360/Nike-LeBron-22-Mogul/Images/Nike-LeBron-22-Mogul/Lv2/img01.jpg?w=480&q=60&dpr=1&updated_at=1740691343&h=320" alt="Nike LeBron 22 Mogul">
+                <div class="product-name">Nike LeBron 22 Mogul</div>
+                <div class="product-price">$100</div>
+            </div>
+
+            <div class="product-card"
+                data-name="Nike LeBron 22 What the Monopoly Tie-Dye (Translucent Outsole)"
+                data-price="$120"
+                data-img-src="https://cdna.lystit.com/520/650/n/photos/kickscrew/5d0511d3/nike-multi-color-Lebron-22-What-The-Monopoly.jpeg"
+                data-360-base-url="https://images.stockx.com/360/Nike-LeBron-22-Monopoly-Tie-Dye/Images/Nike-LeBron-22-Monopoly-Tie-Dye/Lv2/img"
+                data-360-frames="36">
+                <img src="https://images.stockx.com/360/Nike-LeBron-22-Monopoly-Tie-Dye/Images/Nike-LeBron-22-Monopoly-Tie-Dye/Lv2/img01.jpg?w=480&q=41&dpr=3&updated_at=1736976163&h=320" alt="Nike LeBron 22 What the Monopoly Tie-Dye (Translucent Outsole)">
+                <div class="product-name">Nike LeBron 22 What the Monopoly Tie-Dye (Translucent Outsole)</div>
+                <div class="product-price">$120</div>
+            </div>
+
+            <div class="product-card"
+                data-name="Nike Giannis Immortality 4 Bred"
+                data-price="$80"
+                data-img-src="https://images.stockx.com/360/Nike-Giannis-Immortality-4-Bred/Images/Nike-Giannis-Immortality-4-Bred/Lv2/img01.jpg?w=480&q=41&dpr=3&updated_at=1741965905&h=320"
+                data-360-base-url="https://images.stockx.com/360/Nike-Giannis-Immortality-4-Bred/Images/Nike-Giannis-Immortality-4-Bred/Lv2/img"
+                data-360-frames="36">
+                <img src="https://images.stockx.com/360/Nike-Giannis-Immortality-4-Bred/Images/Nike-Giannis-Immortality-4-Bred/Lv2/img01.jpg?w=480&q=41&dpr=3&updated_at=1741965905&h=320" alt="Nike Giannis Immortality 4 Bred">
+                <div class="product-name">Nike Giannis Immortality 4 Hyper Violet Green Strike Bold Berry Black</div>
+                <div class="product-price">$80</div>
+            </div>
+
+            <div class="product-card"
+                data-name="Nike Giannis Immortality 3 All Star"
+                data-price="$60"
+                data-img-src="https://images.stockx.com/360/Nike-Giannis-Immortality-3-All-Star/Images/Nike-Giannis-Immortality-3-All-Star/Lv2/img01.jpg?w=480&q=57&dpr=2&updated_at=1710170611&h=320"
+                data-360-base-url="https://images.stockx.com/360/Nike-Giannis-Immortality-3-All-Star/Images/Nike-Giannis-Immortality-3-All-Star/Lv2/img"
+                data-360-frames="36">
+                <img src="https://images.stockx.com/360/Nike-Giannis-Immortality-3-All-Star/Images/Nike-Giannis-Immortality-3-All-Star/Lv2/img01.jpg?w=480&q=57&dpr=2&updated_at=1710170611&h=320" alt="Nike Giannis Immortality 3 All Star">
+                <div class="product-name">Nike Giannis Immortality 3 All Star</div>
+                <div class="product-price">$60</div>
+            </div>
+
+            <div class="product-card"
+                data-name="Anta Kai 1 Yin Triple Black"
+                data-price="$120"
+                data-img-src="https://images.stockx.com/360/Anta-Kai-1-Triple-Black/Images/Anta-Kai-1-Triple-Black/Lv2/img01.jpg?w=480&q=41&dpr=3&updated_at=1735064618&h=320"
+                data-360-base-url="https://images.stockx.com/360/Anta-Kai-1-Triple-Black/Images/Anta-Kai-1-Triple-Black/Lv2/img"
+                data-360-frames="36">
+                <img src="https://images.stockx.com/360/Anta-Kai-1-Triple-Black/Images/Anta-Kai-1-Triple-Black/Lv2/img01.jpg?w=480&q=41&dpr=3&updated_at=1735064618&h=320" alt="Anta Kai 1 Yin Triple Black">
+                <div class="product-name">Anta Kai 1 Yin Triple Black</div>
+                <div class="product-price">$120</div>
+            </div>
+
+            <div class="product-card"
+                data-name="Anta Kai 2 Artist On Court"
+                data-price="$140"
+                data-img-src="https://images.stockx.com/360/Anta-Kai-2-Artist-On-Court/Images/Anta-Kai-2-Artist-On-Court/Lv2/img01.jpg?w=480&q=60&dpr=1&updated_at=1741374873&h=320"
+                data-360-base-url="https://images.stockx.com/360/Anta-Kai-2-Artist-On-Court/Images/Anta-Kai-2-Artist-On-Court/Lv2/img"
+                data-360-frames="36">
+                <img src="https://images.stockx.com/360/Anta-Kai-2-Artist-On-Court/Images/Anta-Kai-2-Artist-On-Court/Lv2/img01.jpg?w=480&q=60&dpr=1&updated_at=1741374873&h=320" alt="Anta Kai 2 Artist On Court">
+                <div class="product-name">Anta Kai 2 Artist On Court</div>
+                <div class="product-price">$140</div>
+            </div>
+    
+            <div class="product-card"
+                data-name="Jordan Luka 3 SE El Matador"
+                data-price="$220"
+                data-img-src="https://images.stockx.com/360/Air-Jordan-Luka-3-SE-El-Matador/Images/Air-Jordan-Luka-3-SE-El-Matador/Lv2/img01.jpg?w=480&q=60&dpr=1&updated_at=1741371520&h=320"
+                data-360-base-url="https://images.stockx.com/360/Air-Jordan-Luka-3-SE-El-Matador/Images/Air-Jordan-Luka-3-SE-El-Matador/Lv2/img"
+                data-360-frames="36">
+                <img src="https://images.stockx.com/360/Air-Jordan-Luka-3-SE-El-Matador/Images/Air-Jordan-Luka-3-SE-El-Matador/Lv2/img01.jpg?w=480&q=60&dpr=1&updated_at=1741371520&h=320" alt="Jordan Luka 3 SE El Matador">
+                <div class="product-name">Jordan Luka 3 SE El Matador</div>
+                <div class="product-price">$220</div>
+            </div>
+
+            <div class="product-card"
+            data-name="Nike Ja 2 Nightmare"
+            data-price="$107"
+            data-img-src="https://images.stockx.com/360/Nike-Ja-2-Nightmare/Images/Nike-Ja-2-Nightmare/Lv2/img01.jpg?w=480&q=60&dpr=1&updated_at=1728930004&h=320"
+            data-360-base-url="https://images.stockx.com/360/Nike-Ja-2-Nightmare/Images/Nike-Ja-2-Nightmare/Lv2/img"
+            data-360-frames="36">
+            <img src="https://images.stockx.com/360/Nike-Ja-2-Nightmare/Images/Nike-Ja-2-Nightmare/Lv2/img01.jpg?w=480&q=60&dpr=1&updated_at=1728930004&h=320" alt="Jordan Luka 3 SE El Matador">
+            <div class="product-name">Nike Ja 2 Nightmare</div>
+            <div class="product-price">$107</div>
+        </div>
+
+        </section>
+
+        <!-- Modal de producto -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div id="modal-product-info">
+                <h2 id="modal-product-name">Nombre del Producto</h2>
+                <div id="modal-product-price">$Precio</div>
+            </div>
+            <div id="modal-viewer-container">
+                <img id="modal-image-360" src="" alt="Vista 360 del Producto">
+                <input type="range" id="modal-slider" min="1" max="36" value="1">
+            </div>
+            <button id="modal-buy-button">Comprar Ahora</button>
+        </div>
+    </div>
+    
+    <!-- Modal del carrito (separado del modal de producto) -->
+    <div id="cartModal" class="modal">
+        <div class="cart-modal-content">
+            <span class="close-button" onclick="closeCartModal()">&times;</span>
+            <h2>Carrito de Compras</h2>
+            <div class="cart-items">
+                <!-- Los items del carrito se agregarán aquí dinámicamente -->
+            </div>
+            <div class="cart-total">
+                Total: $<span id="cartTotal">0</span>
+            </div>
+            <button id="whatsapp-checkout" onclick="checkoutWhatsApp()" class="checkout-button">
+                <i class="fab fa-whatsapp"></i>
+                Hacer Pedido por WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <script>
+// Variables globales
+const modal = document.getElementById("productModal");
+const cartModal = document.getElementById("cartModal");
+const modalImage = document.getElementById('modal-image-360');
+const modalSlider = document.getElementById('modal-slider');
+const modalProductName = document.getElementById('modal-product-name');
+const modalProductPrice = document.getElementById('modal-product-price');
+const modalBuyButton = document.getElementById('modal-buy-button');
+const closeButtons = document.querySelectorAll(".close-button");
+const productCards = document.querySelectorAll(".product-card");
+
+let current360BaseUrl = '';
+let cartItems = [];
+
+// Añadir eventos de clic a las tarjetas de productos
+for (let i = 0; i < productCards.length; i++) {
+    productCards[i].onclick = function() {
+        // Obtener datos del producto
+        const name = this.getAttribute("data-name");
+        const price = this.getAttribute("data-price");
+        const imgSrc = this.getAttribute("data-img-src");
+        const baseUrl360 = this.getAttribute("data-360-base-url");
+        const frames360 = parseInt(this.getAttribute("data-360-frames") || "1");
+        
+        // Actualizar el modal con los datos del producto
+        modalProductName.textContent = name;
+        modalProductPrice.textContent = price;
+        current360BaseUrl = baseUrl360;
+        
+        // Configurar imagen 360°
+        if (baseUrl360 && frames360 > 1) {
+            modalImage.src = baseUrl360 + "01.jpg";
+            modalSlider.max = frames360;
+            modalSlider.value = 1;
+            modalSlider.style.display = 'block';
+        } else {
+            modalImage.src = imgSrc;
+            modalSlider.style.display = 'none';
+        }
+        
+        // Mostrar el modal
+        modal.style.display = "block";
+    };
+}
+
+// Funcionalidad del slider 360°
+modalSlider.oninput = function() {
+    if (!current360BaseUrl) return;
+    
+    const frameNumber = String(this.value).padStart(2, '0');
+    modalImage.src = current360BaseUrl + frameNumber + ".jpg";
+};
+
+// Botón de comprar
+modalBuyButton.onclick = function() {
+    const name = modalProductName.textContent;
+    const price = modalProductPrice.textContent;
+    const imgSrc = modalImage.src;
+    
+    addToCart(name, price, imgSrc);
+    modal.style.display = "none";
+};
+
+// Cerrar modales al hacer clic en X
+for (let i = 0; i < closeButtons.length; i++) {
+    closeButtons[i].onclick = function() {
+        const modalToClose = this.closest('.modal');
+        if (modalToClose) {
+            modalToClose.style.display = "none";
+        }
+    };
+}
+
+// Cerrar modales al hacer clic fuera
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+    if (event.target == cartModal) {
+        cartModal.style.display = "none";
+    }
+};
+
+// Funciones del carrito
+function addToCart(name, price, imgSrc) {
+    cartItems.push({
+        name: name,
+        price: price,
+        image: imgSrc
+    });
+    updateCartCount();
+    showAddedToCartMessage();
+}
+
+function updateCartCount() {
+    const cartCount = document.querySelector('.cart-count');
+    cartCount.textContent = cartItems.length;
+}
+
+function showAddedToCartMessage() {
+    const message = document.createElement('div');
+    message.className = 'cart-notification';
+    message.textContent = '¡Producto agregado al carrito!';
+    document.body.appendChild(message);
+    
+    setTimeout(function() {
+        message.style.opacity = '0';
+        message.style.transform = 'translateX(100%)';
+        setTimeout(function() {
+            message.remove();
+        }, 300);
+    }, 2000);
+}
+
+// Funciones globales para el HTML
+function openCartModal() {
+    const cartItemsContainer = cartModal.querySelector('.cart-items');
+    cartItemsContainer.innerHTML = '';
+    
+    let total = 0;
+    
+    cartItems.forEach(function(item, index) {
+        const price = parseFloat(item.price.replace('$', ''));
+        total += price;
+        
+        const itemElement = document.createElement('div');
+        itemElement.className = 'cart-item';
+        itemElement.innerHTML = `
+            <img src="${item.image}" alt="${item.name}">
+            <div class="cart-item-details">
+                <div class="cart-item-name">${item.name}</div>
+                <div class="cart-item-price">${item.price}</div>
+            </div>
+            <div class="remove-item" onclick="removeFromCart(${index})">×</div>
+        `;
+        
+        cartItemsContainer.appendChild(itemElement);
+    });
+    
+    document.getElementById('cartTotal').textContent = total.toFixed(2);
+    cartModal.style.display = 'block';
+}
+
+function closeCartModal() {
+    cartModal.style.display = 'none';
+}
+
+function removeFromCart(index) {
+    cartItems.splice(index, 1);
+    updateCartCount();
+    openCartModal();
+}
+
+function checkoutWhatsApp() {
+    let message = "¡Hola! Me gustaría hacer un pedido:\n\n";
+    let total = 0;
+
+    cartItems.forEach(function(item) {
+        const price = parseFloat(item.price.replace('$', ''));
+        message += `• ${item.name} - ${item.price}\n`;
+        total += price;
+    });
+
+    message += `\nTotal: $${total.toFixed(2)}`;
+    
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://api.whatsapp.com/send/?phone=%2B5804129983853&text=${encodedMessage}&type=phone_number&app_absent=0`;
+    
+    window.open(whatsappUrl, '_blank');
+}
+</script>
+</body>
+</html>

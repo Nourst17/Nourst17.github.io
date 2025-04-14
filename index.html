@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zapatos INCES - Inicio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-image: url('stockz.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Overlay con gradiente */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                135deg,
+                rgba(0, 0, 0, 0.8) 0%,
+                rgba(0, 0, 0, 0.6) 100%
+            );
+            z-index: 1;
+        }
+
+        /* Header mejorado */
+        header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-left, .header-right {
+            font-family: 'Montserrat', sans-serif;
+            opacity: 0;
+            animation: fadeSlideIn 1s ease forwards;
+        }
+
+        .header-left {
+            font-size: 1.2em;
+            font-weight: 700;
+            animation-delay: 0.3s;
+        }
+
+        .header-right {
+            font-size: 1em;
+            text-align: right;
+            animation-delay: 0.6s;
+        }
+
+        /* Contenedor principal */
+        .main-content {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Título principal con animación */
+        .main-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5em;
+            font-weight: 700;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeSlideUp 1s ease forwards;
+            animation-delay: 0.9s;
+            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Subtítulo */
+        .subtitle {
+            font-size: 1.2em;
+            margin-bottom: 50px;
+            opacity: 0;
+            animation: fadeSlideUp 1s ease forwards;
+            animation-delay: 1.2s;
+            max-width: 600px;
+        }
+
+        /* Contenedor de botones */
+        .buttons-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+            opacity: 0;
+            animation: fadeSlideUp 1s ease forwards;
+            animation-delay: 1.5s;
+        }
+
+        /* Estilos de botones mejorados */
+        .button {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .youtube-button {
+            background: linear-gradient(45deg, #FF0000, #CC0000);
+        }
+
+        .youtube-button:hover {
+            background: linear-gradient(45deg, #CC0000, #AA0000);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 0, 0, 0.3);
+        }
+
+        .products-button {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+        }
+
+        .products-button:hover {
+            background: linear-gradient(45deg, #45a049, #3d8b40);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
+        }
+
+        /* Animaciones */
+        @keyframes fadeSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Efecto de transición de página */
+        .page-transition {
+            transform: translateX(-100vw);
+            transition: transform 0.5s ease-in-out;
+        }
+
+        /* Agregar estos estilos al final de la sección de estilos existente */
+
+/* Ajustes responsive generales */
+@media screen and (max-width: 1200px) {
+    .main-title {
+        font-size: 3em;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    header {
+        padding: 15px 20px;
+    }
+
+    .header-left, .header-right {
+        font-size: 0.9em;
+    }
+
+    .main-title {
+        font-size: 2.5em;
+        margin-bottom: 20px;
+    }
+
+    .subtitle {
+        font-size: 1em;
+        padding: 0 20px;
+    }
+
+    .buttons-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .button {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .main-title {
+        font-size: 2em;
+        padding: 0 15px;
+    }
+
+    .subtitle {
+        font-size: 0.9em;
+    }
+}
+
+/* Ajustes para pantallas muy pequeñas */
+@media screen and (max-width: 320px) {
+    .main-title {
+        font-size: 1.8em;
+    }
+
+    .button {
+        padding: 12px 20px;
+        font-size: 1em;
+    }
+}
+
+/* Ajustes para pantallas grandes */
+@media screen and (min-width: 1920px) {
+    .main-title {
+        font-size: 4em;
+    }
+
+    .subtitle {
+        font-size: 1.4em;
+    }
+
+    .button {
+        padding: 20px 40px;
+        font-size: 1.2em;
+    }
+}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">INCES LA GUAIRA<br>Desarrollador Web Sección "A"</div>
+        <div class="header-right">Página Web Elaborada Por:<br>Albert Rodriguez</div>
+    </header>
+
+    <main class="main-content">
+        <h1 class="main-title">Bienvenido a Zapatos INCES</h1>
+        <p class="subtitle">Descubre nuestra exclusiva colección de calzado deportivo. Las mejores marcas y los últimos modelos te esperan.</p>
+        
+        <div class="buttons-container">
+            <a href="https://www.youtube.com/@nourst5616" target="_blank" class="button youtube-button">
+                <i class="fab fa-youtube"></i>
+                Canal de YouTube
+            </a>
+            <button id="productosButton" class="button products-button">
+                <i class="fas fa-shopping-bag"></i>
+                Ver Productos
+            </button>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('productosButton').addEventListener('click', function() {
+            document.body.classList.add('page-transition');
+            setTimeout(function() {
+                window.location.href = 'multimedia.html';
+            }, 500);
+        });
+    </script>
+</body>
+</html>
