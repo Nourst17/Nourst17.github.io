@@ -10,422 +10,398 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         body {
-            background-image: url('https://img.freepik.com/vector-gratis/fondo-negro-foco-luz_1017-27230.jpg?semt=ais_hybrid&w=740');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-position: center;
-            color: white;
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-        }
-        header {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.8);
-            position: fixed;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        }
-        .logo {
-            font-size: 28px;
-            font-weight: bold;
-            font-family: 'Montserrat', sans-serif;
-            letter-spacing: 1px;
-            color: white;
-            text-decoration: none;
-        }
-        nav {
-            display: flex;
-            gap: 15px;
-        }
-        nav a {
-            text-decoration: none;
-            color: white;
-            font-size: 16px;
-            font-weight: 500;
-            padding: 8px 15px;
-            border-radius: 25px;
-            background: rgba(255,255,255,0.2);
-            transition: all 0.3s ease;
-        }
-        nav a:hover {
-            background: rgba(255,255,255,0.3);
-            transform: translateY(-2px);
-        }
-        .main-container {
-            padding-top: 80px;
-            padding-bottom: 40px;
-        }
-        .products-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .flip-card {
-            background-color: transparent;
-            width: 100%;
-            height: 320px;
-            perspective: 1000px;
-            margin: 0 auto;
-        }
-        .flip-card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-            cursor: pointer;
-        }
-        .flip-card:hover .flip-card-inner,
-        .flip-card:focus .flip-card-inner {
-            transform: rotateY(180deg);
-        }
-        .flip-card-front, .flip-card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            border-radius: 15px;
-            padding: 16px 15px 15px 15px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        .flip-card-front {
-            background: rgba(0, 0, 0, 0.7);
-        }
-        .flip-card-back {
-            background: rgba(0,0,0,0.9);
-            transform: rotateY(180deg);
-            justify-content: center;
-            align-items: center;
-        }
-        .flip-card .jersey-img {
-            width: 170px;
-            height: 170px;
-            object-fit: contain;
-            border-radius: 14px;
-            margin: 6px auto 13px auto;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.18);
-            background: #fff;
-            padding: 10px;
-        }
-        .flip-card-back .jersey-img {
-            margin-bottom: 16px;
-        }
-        /* --- MODALES --- */
-        .detail-modal, .cart-modal {
-            display: none;
-            position: fixed;
-            z-index: 9999;
-            left: 0;
-            top: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(0,0,0,0.85);
-        }
-        .detail-modal-content, .cart-modal-content {
-            background-color: white;
-            color: #333;
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%,-50%);
-            border-radius: 15px;
-            width: 92vw;
-            max-width: 370px;
-            padding: 22px 18px;
-            box-shadow: 0 6px 22px rgba(0,0,0,0.3);
-            animation: modalPop 0.3s;
-        }
-        @keyframes modalPop {
-            from { opacity: 0; transform: translate(-50%,-50%) scale(.87);}
-            to { opacity: 1; transform: translate(-50%,-50%) scale(1);}
-        }
-        #detail-image {
-            max-width: 98%;
-            max-height: 200px;
-            width: auto;
-            object-fit: contain;
-            border-radius: 10px;
-            margin: 0 auto 15px auto;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-            display: block;
-            background: #fff;
-            padding: 8px;
-        }
-        .close-button {
-            position: absolute;
-            right: 14px;
-            top: 12px;
-            font-size: 26px;
-            cursor: pointer;
-            color: #888;
-        }
-        .size-selector {
-            width: 100%;
-            text-align: center;
-            margin: 12px 0 8px 0;
-        }
-        .size-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        .size-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: 2px solid #ccc;
-            background: white;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .size-btn.selected {
-            background: #4CAF50;
-            color: white;
-            border-color: #4CAF50;
-        }
-        .buy-button {
-            background: linear-gradient(145deg, #FF6B6B, #FF5252);
-            border: none;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 30px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin: 12px auto 0 auto;
-            box-shadow: 0 3px 12px rgba(255,107,107,0.12);
-        }
-        .buy-button:hover {
-            transform: translateY(-3px) scale(1.06);
-            box-shadow: 0 6px 22px rgba(255,107,107,0.2);
-            background: linear-gradient(145deg, #FF5252, #FF6B6B);
-        }
-        .buy-button:active {
-            transform: translateY(1px);
-        }
-        .buy-button::before {
-            content: '';
-            position: absolute;
-            top: 50%; left: 50%;
-            width: 260px; height: 260px;
-            background: rgba(255,255,255,0.20);
-            border-radius: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            animation: pulsebtn 1.5s infinite;
-            pointer-events: none;
-        }
-        @keyframes pulsebtn {
-            0% {transform: translate(-50%,-50%) scale(0); opacity: 0.9;}
-            100% {transform: translate(-50%,-50%) scale(1); opacity: 0;}
-        }
-        .buy-button i { font-size: 18px;}
-        .cart-notification {
-            position: fixed;
-            bottom: 95px;
-            right: 20px;
-            background: #4CAF50;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.21);
-            animation: fadeInOut 2s;
-            z-index: 10004;
-        }
-        @keyframes fadeInOut {
-            0% { opacity: 0; transform: translateY(20px);}
-            18% { opacity: 1; transform: translateY(0);}
-            82% { opacity: 1; transform: translateY(0);}
-            100% { opacity: 0; transform: translateY(-20px);}
-        }
-        .cart-modal-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        .cart-items {
-            width: 100%;
-            flex: 1;
-            margin-bottom: 15px;
-        }
-        .cart-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px;
-            border-bottom: 1px solid #eee;
-            margin-bottom: 6px;
-            background: #fafafa;
-            border-radius: 8px;
-        }
-        .cart-item img {
-            width: 64px;
-            height: 64px;
-            border-radius: 7px;
-            object-fit: cover;
-            background: #fff;
-            padding: 3px;
-        }
-        .cart-item-details {
-            flex: 1;
-            min-width: 90px;
-        }
-        .cart-item-name {
-            font-weight: 600;
-            font-size: 13.5px;
-            color: #444;
-        }
-        .cart-item-price {
-            color: #4CAF50;
-            font-weight: 700;
-            font-size: 15px;
-        }
-        .cart-item button {
-            background: none;
-            border: none;
-            color: #f44336;
-            font-size: 22px;
-            cursor: pointer;
-            margin-left: 4px;
-        }
-        .cart-total {
-            font-weight: 700;
-            font-size: 17px;
-            color: #222;
-            text-align: right;
-            width: 100%;
-            border-top: 2px solid #f0f0f0;
-            padding-top: 12px;
-            margin-bottom: 4px;
-        }
-        .cart-modal-content .buy-button {
-            width: 100%;
-            justify-content: center;
-            margin-bottom: 0;
-            margin-top: 10px;
-            background: linear-gradient(90deg, #25D366 60%, #128C7E 100%);
-        }
-        .cart-modal-content .buy-button i {
-            color: #FFF;
-            font-size: 20px;
-        }
-        .home-button, .cart-button {
-            position: fixed;
-            bottom: 20px;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0 5px 12px rgba(0,0,0,0.21);
-            z-index: 1002;
-            text-decoration: none;
-            color: white;
-            transition: all 0.3s;
-        }
-        .home-button {
-            left: 20px;
-            background: linear-gradient(145deg, #4CAF50, #2E7D32);
-        }
-        .cart-button {
-            right: 20px;
-            background: linear-gradient(145deg, #4CAF50, #2E7D32);
-        }
-        .home-button:hover, .cart-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.27);
-        }
-        .home-button i, .cart-button i { font-size: 24px; color: white; }
-        .cart-count {
-            position: absolute;
-            top: -7px;
-            right: -7px;
-            background: #f44336;
-            color: white;
-            border-radius: 50%;
-            width: 22px;
-            height: 22px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        @media (max-width: 768px) {
-            .products-container { grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap:10px;}
-            .flip-card { height: 190px;}
-            .flip-card .jersey-img { width: 95px; height: 95px;}
-            .logo { font-size: 20px;}
-            nav a { font-size: 14px; padding: 6px 10px;}
-            .detail-modal-content, .cart-modal-content { max-width: 99vw; padding: 11px 2px;}
-            #detail-image { max-height: 120px;}
-        }
-        @media (max-width: 480px) {
-            .main-container { padding-top: 60px;}
-            .products-container { grid-template-columns: repeat(auto-fit, minmax(110px,1fr)); gap:5px;}
-            .flip-card { height: 145px;}
-            .flip-card .jersey-img { width: 60px; height: 60px;}
-            .cart-modal-content { font-size:15px;}
-            #detail-image { max-height: 80px;}
-        }
-        .plain-jersey-card {
-            background: rgba(0, 0, 0, 0.75);
-            border-radius: 15px;
-            padding: 18px 12px;
-            min-height: 320px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.21);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        .plain-jersey-img {
-            width: 170px;
-            height: 170px;
-            max-width: 98%;
-            max-height: 170px;
-            object-fit: contain;
-            border-radius: 14px;
-            background: #fff;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-            margin-bottom: 14px;
-            padding: 10px;
-            display: block;
-        }
-        @media (max-width: 768px) {
-            .plain-jersey-card{min-height:190px;}
-            .plain-jersey-img { width: 95px; height: 95px; max-height:95px; }
-        }
-        @media (max-width: 480px) {
-            .plain-jersey-card{min-height:110px;}
-            .plain-jersey-img { width: 60px; height: 60px; max-height:60px; }
-        }
+    background-image: url('https://img.freepik.com/vector-gratis/fondo-negro-foco-luz_1017-27230.jpg?semt=ais_hybrid&w=740');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+/* HEADER Y NAVEGACION */
+header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 15px;
+    background: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s;
+}
+header:hover { background: rgba(0,0,0,0.9);}
+.logo {
+    font-size: 26px;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 1px;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+nav { display:flex; gap:15px;}
+nav a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 8px 15px;
+    border-radius: 25px;
+    background: rgba(255,255,255,0.2);
+    transition: all 0.3s;
+    position: relative;
+}
+nav a:hover {
+    background: rgba(255,255,255,0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.13);
+}
+nav a::after {
+    content:'';
+    position:absolute;
+    left:0; bottom:0;
+    width:0;
+    height:2px;
+    background:white;
+    transition:width 0.3s;
+}
+nav a:hover::after { width:100%; }
+
+.main-container {
+    padding-top: 90px;
+    padding-bottom: 40px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+.products-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 24px;
+    padding: 15px 10px;
+    max-width: 1220px;
+    margin: 0 auto;
+    animation: fadeIn 0.8s;
+}
+@keyframes fadeIn { from {opacity:0;} to {opacity:1;}}
+
+/* TARJETAS */
+.flip-card, .plain-jersey-card {
+    background: rgba(0,0,0,0.76);
+    border-radius: 15px;
+    min-height: 310px;
+    box-shadow: 0 7px 18px rgba(0,0,0,0.21);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position:relative;
+    padding: 0;
+    transition: box-shadow .3s, transform .3s;
+    cursor: pointer;
+    overflow: hidden;
+}
+.flip-card:hover, .plain-jersey-card:hover {
+    box-shadow: 0 15px 34px rgba(0,0,0,0.33);
+    transform: translateY(-7px) scale(1.03);
+}
+.flip-card-inner {
+    width: 100%; height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    position:relative;
+}
+.flip-card:hover .flip-card-inner,
+.flip-card:focus .flip-card-inner { transform: rotateY(180deg);}
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%; height: 100%;
+    -webkit-backface-visibility: hidden; backface-visibility: hidden;
+    border-radius: 15px;
+    padding: 18px 10px 13px 10px;
+    box-sizing: border-box;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.flip-card-front { background: rgba(0,0,0,.7);}
+.flip-card-back { background: rgba(0,0,0,.91); transform: rotateY(180deg);}
+.flip-card .jersey-img, .plain-jersey-img {
+    width: 155px; height: 155px; max-width:95%; max-height:155px;
+    object-fit: contain; border-radius: 12px; background: #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,.14);
+    margin-bottom: 12px;
+    padding: 10px;
+    transition: transform .35s;
+}
+.flip-card:hover .jersey-img,
+.plain-jersey-card:hover .plain-jersey-img {
+    transform: scale(1.04) rotate(-2deg);
+}
+.product-name {
+    font-size: 17px;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    margin: 8px 0 5px;
+    text-align: center;
+    color: white;
+    text-shadow: 0 0 9px rgba(0,0,0,.12);
+}
+.product-price {
+    color: #4CAF50;
+    font-size: 19px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    transition: color 0.3s, transform 0.3s;
+}
+.buy-button {
+    background: linear-gradient(145deg, #FF6B6B, #FF5252);
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 12px auto 0 auto;
+    box-shadow: 0 3px 12px rgba(255,107,107,0.12);
+}
+.buy-button:hover {
+    transform: translateY(-2px) scale(1.06);
+    box-shadow: 0 6px 22px rgba(255,107,107,0.2);
+    background: linear-gradient(145deg, #FF5252, #FF6B6B);
+}
+.buy-button:active { transform: translateY(1px);}
+.buy-button::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 260px; height: 260px;
+    background: rgba(255,255,255,0.20);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    animation: pulsebtn 1.5s infinite;
+    pointer-events: none;
+}
+@keyframes pulsebtn {
+    0% {transform: translate(-50%,-50%) scale(0); opacity: 0.9;}
+    100% {transform: translate(-50%,-50%) scale(1); opacity: 0;}
+}
+.buy-button i { font-size: 18px;}
+/* estilos especial para flip-card-back */
+.flip-card-back .jersey-img {margin-bottom: 13px;}
+
+/* BOTONES FLOTANTES */
+.home-button, .cart-button {
+    position: fixed;
+    bottom: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 5px 12px rgba(0,0,0,0.21);
+    z-index: 1002;
+    text-decoration: none;
+    color: white;
+    transition: all 0.3s;
+}
+.home-button { left: 20px; background: linear-gradient(145deg, #4CAF50, #2E7D32);}
+.cart-button { right: 20px; background: linear-gradient(145deg, #4CAF50, #2E7D32);}
+.home-button:hover, .cart-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.27);
+}
+.home-button i, .cart-button i { font-size: 24px; color: white;}
+.cart-count {
+    position: absolute;
+    top: -7px;
+    right: -7px;
+    background: #f44336;
+    color: white;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* MODALES Y DETALLES */
+.detail-modal, .cart-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.85);
+}
+.detail-modal-content, .cart-modal-content {
+    background-color: white;
+    color: #333;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 15px;
+    width: 92vw;
+    max-width: 370px;
+    padding: 22px 18px;
+    box-shadow: 0 6px 22px rgba(0,0,0,0.3);
+    animation: modalPop 0.3s;
+}
+@keyframes modalPop {
+    from { opacity: 0; transform: translate(-50%,-50%) scale(.87);}
+    to { opacity: 1; transform: translate(-50%,-50%) scale(1);}
+}
+#detail-image {
+    max-width: 98%;
+    max-height: 200px;
+    width: auto;
+    object-fit: contain;
+    border-radius: 10px;
+    margin: 0 auto 15px auto;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    display: block;
+    background: #fff;
+    padding: 8px;
+}
+.close-button {
+    position: absolute;
+    right: 14px;
+    top: 12px;
+    font-size: 26px;
+    cursor: pointer;
+    color: #888;
+}
+.cart-notification {
+    position: fixed;
+    bottom: 95px;
+    right: 20px;
+    background: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.21);
+    animation: fadeInOut 2s;
+    z-index: 10004;
+}
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(20px);}
+    18% { opacity: 1; transform: translateY(0);}
+    82% { opacity: 1; transform: translateY(0);}
+    100% { opacity: 0; transform: translateY(-20px);}
+}
+.cart-modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+.cart-items {
+    width: 100%;
+    flex: 1;
+    margin-bottom: 15px;
+}
+.cart-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 6px;
+    background: #fafafa;
+    border-radius: 8px;
+}
+.cart-item img {
+    width: 64px;
+    height: 64px;
+    border-radius: 7px;
+    object-fit: cover;
+    background: #fff;
+    padding: 3px;
+}
+.cart-item-details {
+    flex: 1;
+    min-width: 90px;
+}
+.cart-item-name {
+    font-weight: 600;
+    font-size: 13.5px;
+    color: #444;
+}
+.cart-item-price {
+    color: #4CAF50;
+    font-weight: 700;
+    font-size: 15px;
+}
+.cart-item button {
+    background: none;
+    border: none;
+    color: #f44336;
+    font-size: 22px;
+    cursor: pointer;
+    margin-left: 4px;
+}
+.cart-total {
+    font-weight: 700;
+    font-size: 17px;
+    color: #222;
+    text-align: right;
+    width: 100%;
+    border-top: 2px solid #f0f0f0;
+    padding-top: 12px;
+    margin-bottom: 4px;
+}
+.cart-modal-content .buy-button {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 0;
+    margin-top: 10px;
+    background: linear-gradient(90deg, #25D366 60%, #128C7E 100%);
+}
+.cart-modal-content .buy-button i {
+    color: #FFF;
+    font-size: 20px;
+}
+
+/* RESPONSIVE QUERIES */
+@media (max-width: 830px) {
+    .products-container { grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap: 11px;}
+    .flip-card, .plain-jersey-card { min-height: 180px;}
+    .flip-card .jersey-img, .plain-jersey-img { width: 88px; height: 88px;}
+    .main-container, header { padding-left: 8px; padding-right: 8px;}
+    .logo { font-size: 19px;}
+    nav a { font-size: 14px; padding: 6px 10px; }
+    .product-name { font-size: 15px;}
+    .product-price { font-size: 15px;}
+}
+@media (max-width: 500px) {
+    .main-container { padding-top: 59px;}
+    .products-container { grid-template-columns: repeat(auto-fit, minmax(109px, 1fr)); gap: 5px;}
+    .flip-card, .plain-jersey-card { min-height: 105px;}
+    .flip-card .jersey-img, .plain-jersey-img { width: 52px; height: 52px;}
+    .cart-count { font-size: 11px; width: 17px; height: 17px;}
+}
+@media (max-width: 360px) {
+    nav a { font-size: 11px;}
+    .logo { font-size: 15px;}
+}
     </style>
 </head>
 <body>
@@ -445,7 +421,7 @@
     <div class="main-container">
         <div class="products-container">
             <!-- Camisa 1 -->
-<div class="flip-card" data-name="Lakers City Edition" data-price="$120">
+<div class="flip-card" data-name="Lakers City Edition" data-price="$30">
     <div class="flip-card-inner">
         <div class="flip-card-front">
             <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/1ca4d5f9-4053-4dc0-801d-0368b1e7a5c6/LAL+MNK+DF+SWGMN+JSY+ASC+22.png" alt="Lakers Jersey">
@@ -459,7 +435,7 @@
     </div>
 </div>
 <!-- Camisa 2 -->
-<div class="flip-card" data-name="Cleveland Cavaliers Icon Edition 2022/23" data-price="$135">
+<div class="flip-card" data-name="Cleveland Cavaliers Icon Edition 2022/23" data-price="$20">
     <div class="flip-card-inner">
         <div class="flip-card-front">
             <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/038c1d26-ccc5-4687-b3eb-aac84565f292/CLE+MNK+DF+SWGMN+JSY+ICN+22.png" alt="Argentina Messi">
@@ -473,7 +449,7 @@
     </div>
 </div>
 <!-- Camisa 3 -->
-<div class="flip-card" data-name="Jalen Brunson New York Knicks 2024/25 City Edition" data-price="$125">
+<div class="flip-card" data-name="Jalen Brunson New York Knicks 2024/25 City Edition" data-price="$25">
     <div class="flip-card-inner">
         <div class="flip-card-front">
             <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/626ca6a3-4040-49c9-a731-1a73d2ad25f2/NYK+MNK+DFADV+ATH+JSY+CE+24.png" alt="Real Madrid Jersey">
@@ -487,7 +463,7 @@
     </div>
 </div>
 <!-- Camisa 4 -->
-<div class="flip-card" data-name="Sga Oklahoma City Thunder 2024/25 City Edition" data-price="$110">
+<div class="flip-card" data-name="Sga Oklahoma City Thunder 2024/25 City Edition" data-price="$19">
     <div class="flip-card-inner">
         <div class="flip-card-front">
             <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/09b6449a-9c97-4b93-8ffc-1bee2080f451/OKC+MNK+DFADV+ATH+JSY+CE+24.png" alt="Barcelona Away Jersey">
@@ -501,7 +477,7 @@
     </div>
 </div>
 <!-- Camisa 5 -->
-<div class="flip-card" data-name="Oklahoma City Thunder Icon Edition 2022/23" data-price="$140">
+<div class="flip-card" data-name="Oklahoma City Thunder Icon Edition 2022/23" data-price="$30">
     <div class="flip-card-inner">
         <div class="flip-card-front">
             <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/7be8e14d-c77f-41d2-aafe-0df91d743587/OKC+MNK+DF+SWGMN+JSY+ICN+22.png" alt="PSG Third 2024 Mbappé">
@@ -515,7 +491,7 @@
     </div>
 </div>
 <!-- Camisa 6 -->
-<div class="flip-card" data-name="Denver Nuggets Association Edition 2022/23" data-price="$98">
+<div class="flip-card" data-name="Denver Nuggets Association Edition 2022/23" data-price="$25">
     <div class="flip-card-inner">
         <div class="flip-card-front">
             <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/da7a3097-0a8a-418c-963e-d1d100a71424/DEN+MNK+DF+SWGMN+JSY+ASC+22.png" alt="Venezuela Vinotinto">
@@ -531,7 +507,7 @@
 
 <!-- 14 jerseys BASKET adicionales -->
 <!-- 07 - Boston Celtics Jayson Tatum -->
-<div class="flip-card" data-name="Boston Celtics Icon Edition 2022/23" data-price="$130">
+<div class="flip-card" data-name="Boston Celtics Icon Edition 2022/23" data-price="$30">
     <div class="flip-card-inner">
         <div class="flip-card-front">
             <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/e88366f1-4308-42fb-a66d-ddea030fcd4b/BOS+MNK+DFADV+ATH+JSY+ICN+20.png" alt="Celtics Tatum Front">
@@ -545,12 +521,12 @@
     </div>
 </div>
 <!-- 08 - Golden State Warriors Curry -->
-<div class="flip-card" data-name="Ja Morant Memphis Grizzlies 2025/26 Select Series" data-price="$142">
+<div class="flip-card" data-name="Ja Morant Memphis Grizzlies 2025/26 Select Series" data-price="$38">
     <div class="flip-card-inner">
         <div class="flip-card-front">
             <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/3950293b-a403-43c3-b83c-6dcb60a928d9/SEL+MNK+DF+JSY+V5+MORANT.png" alt="Warriors Curry Front">
             <div class="product-name">Ja Morant Memphis Grizzlies 2025/26 Select Series</div>
-            <div class="product-price">38</div>
+            <div class="product-price">$38</div>
         </div>
         <div class="flip-card-back">
             <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/7c653496-e44d-4d55-9410-68b1ced0ae0f/SEL+MNK+DF+JSY+V5+MORANT.png" alt="Warriors Curry Back">
@@ -559,7 +535,7 @@
     </div>
 </div>
 <!-- 09 - Milwaukee Bucks Giannis -->
-<div class="flip-card" data-name="Stephen Curry Golden State Warriors 2025/26 Select Series" data-price="$139">
+<div class="flip-card" data-name="Stephen Curry Golden State Warriors 2025/26 Select Series" data-price="$15">
     <div class="flip-card-inner">
         <div class="flip-card-front">
             <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/e1db4556-a26b-4191-9bfe-3ef79a7f0638/SEL+MNK+DF+JSY+V5+CURRY.png" alt="Bucks Giannis Front">
@@ -573,7 +549,7 @@
     </div>
 </div>
 <!-- 10 - Miami Heat Jimmy Butler -->
-<div class="flip-card" data-name="Giannis Antetokounmpo Milwaukee Bucks 2024/25 City Edition" data-price="$128">
+<div class="flip-card" data-name="Giannis Antetokounmpo Milwaukee Bucks 2024/25 City Edition" data-price="$12">
     <div class="flip-card-inner">
         <div class="flip-card-front">
             <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/bb67cb9c-7d57-4ee3-ab4a-a1fbb0a03a4b/MIL+MNK+DFADV+ATH+JSY+CE+24.png" alt="Heat Butler Front">
@@ -587,7 +563,7 @@
     </div>
 </div>
 <!-- 11 - Dallas Mavericks Doncic -->
-<div class="flip-card" data-name="Jimmy Butler Miami Heat 2024/25 City Edition" data-price="$133">
+<div class="flip-card" data-name="Jimmy Butler Miami Heat 2024/25 City Edition" data-price="$10">
     <div class="flip-card-inner">
         <div class="flip-card-front">
             <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/c1f6f37b-5333-43e5-9ed9-00a5de3f232d/MIA+MNK+DF+SWGMN+JSY+CE+24.png" alt="Mavericks Doncic Front">
@@ -601,7 +577,7 @@
     </div>
 </div>
 <!-- 12 - Brooklyn Nets Simmons -->
-<div class="flip-card" data-name="Kevin Durant Phoenix Suns 2025/26 Select Series" data-price="$127">
+<div class="flip-card" data-name="Kevin Durant Phoenix Suns 2025/26 Select Series" data-price="$20">
     <div class="flip-card-inner">
         <div class="flip-card-front">
             <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/4851b63c-0878-4bb8-b402-49dcc0116334/SEL+MNK+DF+JSY+V5+DURANT.png" alt="Nets Simmons Front">
@@ -615,7 +591,7 @@
     </div>
 </div>
 <!-- 13 - Chicago Bulls DeRozan -->
-<div class="flip-card" data-name="Joel Embiid Philadelphia 76ers 2025/26 Select Series" data-price="$135">
+<div class="flip-card" data-name="Joel Embiid Philadelphia 76ers 2025/26 Select Series" data-price="$35">
     <div class="flip-card-inner">
         <div class="flip-card-front">
             <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/e313c6c5-11be-4b3e-b30e-64fd3cbaae1d/SEL+MNK+DF+JSY+V5+EMBIID.png" alt="Bulls DeRozan Front">
@@ -629,7 +605,7 @@
     </div>
 </div>
 <!-- 14 - Phoenix Suns Kevin Durant -->
-<div class="flip-card" data-name="Tyrese Haliburton Indiana Pacers 2024/25 City Edition" data-price="$131">
+<div class="flip-card" data-name="Tyrese Haliburton Indiana Pacers 2024/25 City Edition" data-price="$40">
     <div class="flip-card-inner">
         <div class="flip-card-front">
             <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/38296b38-c9dc-4bbe-9a0d-f1e7f5e119f6/BOYS+CITY+EDITION+SWINGMAN+JER.png" alt="Suns Durant Front">
@@ -644,7 +620,7 @@
 </div>
 <!-- 15 - Philadelphia 76ers Embiid -->
 <div class="flip-card" data-name="Zion Williamson New Orleans Pelican City Edition 2023/24
-" data-price="$138">
+" data-price="$20">
     <div class="flip-card-inner">
         <div class="flip-card-front">
             <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/e53c5d2e-3f01-4d48-b9c1-528983ecfb2f/NOP+MNK+DF+SWGMN+JSY+CE+23.png" alt="Sixers Embiid Front">
@@ -658,7 +634,7 @@
     </div>
 </div>
 <!-- 16 - Los Angeles Clippers Kawhi Leonard -->
-<div class="flip-card" data-name="Bam Adebayo Miami Heat City Edition 2023/24" data-price="$129">
+<div class="flip-card" data-name="Bam Adebayo Miami Heat City Edition 2023/24" data-price="$10">
     <div class="flip-card-inner">
         <div class="flip-card-front">
             <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/dff3bc7c-5039-48ba-831a-4d9aed2e7ce4/MIA+MNK+DF+SWGMN+JSY+CE+23.png" alt="Clippers Leonard Front">
@@ -672,7 +648,7 @@
     </div>
 </div>
 <!-- 17 - Denver Nuggets Jokic -->
-<div class="flip-card" data-name="San Antonio Spurs Association Edition 2022/23" data-price="$140">
+<div class="flip-card" data-name="San Antonio Spurs Association Edition 2022/23" data-price="$15">
     <div class="flip-card-inner">
         <div class="flip-card-front">
             <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/487bee1e-99f8-419b-a26a-e2bc1eaf3b37/SAS+MNK+DF+SWGMN+JSY+ASC+22.png" alt="Nuggets Jokic Front">
@@ -686,7 +662,7 @@
     </div>
 </div>
 <!-- 18 - Toronto Raptors Scottie Barnes -->
-<div class="flip-card" data-name="Raptors Statement Barnes" data-price="$125">
+<div class="flip-card" data-name="Raptors Statement Barnes" data-price="$25">
     <div class="flip-card-inner">
         <div class="flip-card-front">
             <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/912bcc06-e983-455e-a48b-9efb9b62fd28/LAC+MNK+DF+SWGMN+JSY+ICN+22.png" alt="Raptors Barnes front">
@@ -700,7 +676,7 @@
     </div>
 </div>
 <!-- 19 - Houston Rockets Jalen Green -->
-<div class="flip-card" data-name="Anthony Edwards Minnesota Timberwolves 2024/25 City Edition" data-price="$119">
+<div class="flip-card" data-name="Anthony Edwards Minnesota Timberwolves 2024/25 City Edition" data-price="$10">
     <div class="flip-card-inner">
         <div class="flip-card-front">
             <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/4138cec0-13ef-424b-8f14-d2b88b4eb2d9/MIN+MNK+DF+SWGMN+JSY+CE+24.png" alt="Rockets Green front">
@@ -713,11 +689,18 @@
         </div>
     </div>
 </div>
-<div class="plain-jersey-card" data-name="Luka Dončić Los Angeles Lakers Black Mamba Jersey" data-price="$20">
-    <img class="plain-jersey-img" src="https://i.ebayimg.com/images/g/~3oAAOSw649npCR5/s-l1200.jpg" alt="USA Dream Team 92">
-    <div class="product-name">Luka Dončić Los Angeles Lakers Black Mamba Jersey</div>
-    <div class="product-price">$20</div>
-    <button class="buy-button"><i class="fas fa-cart-plus"></i>Comprar</button>
+<div class="flip-card" data-name="Luka Dončić Los Angeles Lakers Black Mamba Jersey" data-price="$20">
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
+            <img class="jersey-img" src="https://i.ebayimg.com/images/g/~3oAAOSw649npCR5/s-l1200.jpg" alt="Luka Dončić Black Mamba Front">
+            <div class="product-name">Luka Dončić Los Angeles Lakers Black Mamba Jersey</div>
+            <div class="product-price">$20</div>
+        </div>
+        <div class="flip-card-back">
+            <img class="jersey-img" src="https://i.ebayimg.com/images/g/~3oAAOSw649npCR5/s-l1200.jpg" alt="Luka Dončić Black Mamba Back"><!-- Cambia esta url si tienes una imagen del reverso -->
+            <button class="buy-button"><i class="fas fa-cart-plus"></i>Comprar</button>
+        </div>
+    </div>
 </div>
         </div>
         </div>
