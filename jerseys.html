@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>StockZ - Jerseys</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background-image: url('https://img.freepik.com/vector-gratis/fondo-negro-foco-luz_1017-27230.jpg?semt=ais_hybrid&w=740');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            position: fixed;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 1px;
+            color: white;
+            text-decoration: none;
+        }
+        nav {
+            display: flex;
+            gap: 15px;
+        }
+        nav a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 25px;
+            background: rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+        nav a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        .main-container {
+            padding-top: 80px;
+            padding-bottom: 40px;
+        }
+        .products-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .flip-card {
+            background-color: transparent;
+            width: 100%;
+            height: 320px;
+            perspective: 1000px;
+            margin: 0 auto;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+        .flip-card:hover .flip-card-inner,
+        .flip-card:focus .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            padding: 16px 15px 15px 15px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .flip-card-front {
+            background: rgba(0, 0, 0, 0.7);
+        }
+        .flip-card-back {
+            background: rgba(0,0,0,0.9);
+            transform: rotateY(180deg);
+            justify-content: center;
+            align-items: center;
+        }
+        .flip-card .jersey-img {
+            width: 170px;
+            height: 170px;
+            object-fit: contain;
+            border-radius: 14px;
+            margin: 6px auto 13px auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.18);
+            background: #fff;
+            padding: 10px;
+        }
+        .flip-card-back .jersey-img {
+            margin-bottom: 16px;
+        }
+        /* --- MODALES --- */
+        .detail-modal, .cart-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0,0,0,0.85);
+        }
+        .detail-modal-content, .cart-modal-content {
+            background-color: white;
+            color: #333;
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%,-50%);
+            border-radius: 15px;
+            width: 92vw;
+            max-width: 370px;
+            padding: 22px 18px;
+            box-shadow: 0 6px 22px rgba(0,0,0,0.3);
+            animation: modalPop 0.3s;
+        }
+        @keyframes modalPop {
+            from { opacity: 0; transform: translate(-50%,-50%) scale(.87);}
+            to { opacity: 1; transform: translate(-50%,-50%) scale(1);}
+        }
+        #detail-image {
+            max-width: 98%;
+            max-height: 200px;
+            width: auto;
+            object-fit: contain;
+            border-radius: 10px;
+            margin: 0 auto 15px auto;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+            display: block;
+            background: #fff;
+            padding: 8px;
+        }
+        .close-button {
+            position: absolute;
+            right: 14px;
+            top: 12px;
+            font-size: 26px;
+            cursor: pointer;
+            color: #888;
+        }
+        .size-selector {
+            width: 100%;
+            text-align: center;
+            margin: 12px 0 8px 0;
+        }
+        .size-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .size-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid #ccc;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .size-btn.selected {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+        .buy-button {
+            background: linear-gradient(145deg, #FF6B6B, #FF5252);
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 12px auto 0 auto;
+            box-shadow: 0 3px 12px rgba(255,107,107,0.12);
+        }
+        .buy-button:hover {
+            transform: translateY(-3px) scale(1.06);
+            box-shadow: 0 6px 22px rgba(255,107,107,0.2);
+            background: linear-gradient(145deg, #FF5252, #FF6B6B);
+        }
+        .buy-button:active {
+            transform: translateY(1px);
+        }
+        .buy-button::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 260px; height: 260px;
+            background: rgba(255,255,255,0.20);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            animation: pulsebtn 1.5s infinite;
+            pointer-events: none;
+        }
+        @keyframes pulsebtn {
+            0% {transform: translate(-50%,-50%) scale(0); opacity: 0.9;}
+            100% {transform: translate(-50%,-50%) scale(1); opacity: 0;}
+        }
+        .buy-button i { font-size: 18px;}
+        .cart-notification {
+            position: fixed;
+            bottom: 95px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.21);
+            animation: fadeInOut 2s;
+            z-index: 10004;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(20px);}
+            18% { opacity: 1; transform: translateY(0);}
+            82% { opacity: 1; transform: translateY(0);}
+            100% { opacity: 0; transform: translateY(-20px);}
+        }
+        .cart-modal-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .cart-items {
+            width: 100%;
+            flex: 1;
+            margin-bottom: 15px;
+        }
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 6px;
+            background: #fafafa;
+            border-radius: 8px;
+        }
+        .cart-item img {
+            width: 64px;
+            height: 64px;
+            border-radius: 7px;
+            object-fit: cover;
+            background: #fff;
+            padding: 3px;
+        }
+        .cart-item-details {
+            flex: 1;
+            min-width: 90px;
+        }
+        .cart-item-name {
+            font-weight: 600;
+            font-size: 13.5px;
+            color: #444;
+        }
+        .cart-item-price {
+            color: #4CAF50;
+            font-weight: 700;
+            font-size: 15px;
+        }
+        .cart-item button {
+            background: none;
+            border: none;
+            color: #f44336;
+            font-size: 22px;
+            cursor: pointer;
+            margin-left: 4px;
+        }
+        .cart-total {
+            font-weight: 700;
+            font-size: 17px;
+            color: #222;
+            text-align: right;
+            width: 100%;
+            border-top: 2px solid #f0f0f0;
+            padding-top: 12px;
+            margin-bottom: 4px;
+        }
+        .cart-modal-content .buy-button {
+            width: 100%;
+            justify-content: center;
+            margin-bottom: 0;
+            margin-top: 10px;
+            background: linear-gradient(90deg, #25D366 60%, #128C7E 100%);
+        }
+        .cart-modal-content .buy-button i {
+            color: #FFF;
+            font-size: 20px;
+        }
+        .home-button, .cart-button {
+            position: fixed;
+            bottom: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.21);
+            z-index: 1002;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s;
+        }
+        .home-button {
+            left: 20px;
+            background: linear-gradient(145deg, #4CAF50, #2E7D32);
+        }
+        .cart-button {
+            right: 20px;
+            background: linear-gradient(145deg, #4CAF50, #2E7D32);
+        }
+        .home-button:hover, .cart-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.27);
+        }
+        .home-button i, .cart-button i { font-size: 24px; color: white; }
+        .cart-count {
+            position: absolute;
+            top: -7px;
+            right: -7px;
+            background: #f44336;
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        @media (max-width: 768px) {
+            .products-container { grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap:10px;}
+            .flip-card { height: 190px;}
+            .flip-card .jersey-img { width: 95px; height: 95px;}
+            .logo { font-size: 20px;}
+            nav a { font-size: 14px; padding: 6px 10px;}
+            .detail-modal-content, .cart-modal-content { max-width: 99vw; padding: 11px 2px;}
+            #detail-image { max-height: 120px;}
+        }
+        @media (max-width: 480px) {
+            .main-container { padding-top: 60px;}
+            .products-container { grid-template-columns: repeat(auto-fit, minmax(110px,1fr)); gap:5px;}
+            .flip-card { height: 145px;}
+            .flip-card .jersey-img { width: 60px; height: 60px;}
+            .cart-modal-content { font-size:15px;}
+            #detail-image { max-height: 80px;}
+        }
+        .plain-jersey-card {
+            background: rgba(0, 0, 0, 0.75);
+            border-radius: 15px;
+            padding: 18px 12px;
+            min-height: 320px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.21);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .plain-jersey-img {
+            width: 170px;
+            height: 170px;
+            max-width: 98%;
+            max-height: 170px;
+            object-fit: contain;
+            border-radius: 14px;
+            background: #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            margin-bottom: 14px;
+            padding: 10px;
+            display: block;
+        }
+        @media (max-width: 768px) {
+            .plain-jersey-card{min-height:190px;}
+            .plain-jersey-img { width: 95px; height: 95px; max-height:95px; }
+        }
+        @media (max-width: 480px) {
+            .plain-jersey-card{min-height:110px;}
+            .plain-jersey-img { width: 60px; height: 60px; max-height:60px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">StockZ</a>
+        <nav>
+            <a href="multimedia.html">Zapatos</a>
+            <a href="https://api.whatsapp.com/send/?phone=%2B5804129983853" target="_blank">Contáctanos</a>
+        </nav>
+    </header>
+    <a href="index.html" class="home-button"><i class="fas fa-home"></i></a>
+    <!-- Botón flotante del carrito -->
+    <div class="cart-button" onclick="openCartModal()">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count">0</span>
+    </div>
+    <div class="main-container">
+        <div class="products-container">
+            <!-- Camisa 1 -->
+<div class="flip-card" data-name="Lakers City Edition" data-price="$120">
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/1ca4d5f9-4053-4dc0-801d-0368b1e7a5c6/LAL+MNK+DF+SWGMN+JSY+ASC+22.png" alt="Lakers Jersey">
+            <div class="product-name">Los Angeles Lakers Association Edition 2022/23</div>
+            <div class="product-price">$30</div>
+        </div>
+        <div class="flip-card-back">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/7e9646d3-cc5e-4366-929e-4cef02850267/LAL+MNK+DF+SWGMN+JSY+ASC+22.png" alt="Lakers Jersey back">
+            <button class="buy-button"><i class="fas fa-cart-plus"></i>Comprar</button>
+        </div>
+    </div>
+</div>
+<!-- Camisa 2 -->
+<div class="flip-card" data-name="Cleveland Cavaliers Icon Edition 2022/23" data-price="$135">
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/038c1d26-ccc5-4687-b3eb-aac84565f292/CLE+MNK+DF+SWGMN+JSY+ICN+22.png" alt="Argentina Messi">
+            <div class="product-name">Cleveland Cavaliers Icon Edition 2022/23</div>
+            <div class="product-price">$20</div>
+        </div>
+        <div class="flip-card-back">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/605d7577-19bf-4c92-ab60-9785f1168ad1/CLE+MNK+DF+SWGMN+JSY+ICN+22.png" alt="Argentina Messi Back">
+            <button class="buy-button"><i class="fas fa-cart-plus"></i>Comprar</button>
+        </div>
+    </div>
+</div>
+<!-- Camisa 3 -->
+<div class="flip-card" data-name="Jalen Brunson New York Knicks 2024/25 City Edition" data-price="$125">
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/626ca6a3-4040-49c9-a731-1a73d2ad25f2/NYK+MNK+DFADV+ATH+JSY+CE+24.png" alt="Real Madrid Jersey">
+            <div class="product-name">Jalen Brunson New York Knicks 2024/25 City Edition</div>
+            <div class="product-price">$25</div>
+        </div>
+        <div class="flip-card-back">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/9cf4192c-6708-4da0-9b19-0821e8f01429/NYK+MNK+DFADV+ATH+JSY+CE+24.png" alt="Real Madrid Jersey Back">
+            <button class="buy-button"><i class="fas fa-cart-plus"></i>Comprar</button>
+        </div>
+    </div>
+</div>
+<!-- Camisa 4 -->
+<div class="flip-card" data-name="Sga Oklahoma City Thunder 2024/25 City Edition" data-price="$110">
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/09b6449a-9c97-4b93-8ffc-1bee2080f451/OKC+MNK+DFADV+ATH+JSY+CE+24.png" alt="Barcelona Away Jersey">
+            <div class="product-name">Sga Oklahoma City Thunder 2024/25 City Edition</div>
+            <div class="product-price">$19</div>
+        </div>
+        <div class="flip-card-back">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/13398b94-3512-46f0-89ef-0d7c24c3b6cb/OKC+MNK+DFADV+ATH+JSY+CE+24.png" alt="Barcelona Away Jersey Back">
+            <button class="buy-button"><i class="fas fa-cart-plus"></i>Comprar</button>
+        </div>
+    </div>
+</div>
+<!-- Camisa 5 -->
+<div class="flip-card" data-name="Oklahoma City Thunder Icon Edition 2022/23" data-price="$140">
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/7be8e14d-c77f-41d2-aafe-0df91d743587/OKC+MNK+DF+SWGMN+JSY+ICN+22.png" alt="PSG Third 2024 Mbappé">
+            <div class="product-name">Oklahoma City Thunder Icon Edition 2022/23</div>
+            <div class="product-price">$30</div>
+        </div>
+        <div class="flip-card-back">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/afb3b2de-04c4-47bd-91db-845d4363a978/OKC+MNK+DF+SWGMN+JSY+ICN+22.png" alt="PSG Third 2024 back">
+            <button class="buy-button"><i class="fas fa-cart-plus"></i>Comprar</button>
+        </div>
+    </div>
+</div>
+<!-- Camisa 6 -->
+<div class="flip-card" data-name="Denver Nuggets Association Edition 2022/23" data-price="$98">
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/da7a3097-0a8a-418c-963e-d1d100a71424/DEN+MNK+DF+SWGMN+JSY+ASC+22.png" alt="Venezuela Vinotinto">
+            <div class="product-name">Denver Nuggets Association Edition 2022/23</div>
+            <div class="product-price">$25</div>
+        </div>
+        <div class="flip-card-back">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/f8eed50f-a443-42cc-bb12-934cc05d2198/DEN+MNK+DF+SWGMN+JSY+ASC+22.png" alt="Venezuela Vinotinto Back">
+            <button class="buy-button"><i class="fas fa-cart-plus"></i>Comprar</button>
+        </div>
+    </div>
+</div>
+
+<!-- 14 jerseys BASKET adicionales -->
+<!-- 07 - Boston Celtics Jayson Tatum -->
+<div class="flip-card" data-name="Boston Celtics Icon Edition 2022/23" data-price="$130">
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/e88366f1-4308-42fb-a66d-ddea030fcd4b/BOS+MNK+DFADV+ATH+JSY+ICN+20.png" alt="Celtics Tatum Front">
+            <div class="product-name">Boston Celtics Icon Edition 2022/23</div>
+            <div class="product-price">$30</div>
+        </div>
+        <div class="flip-card-back">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/83ed55dc-f468-4870-8e4f-e8c7dc3fa799/BOS+MNK+DFADV+ATH+JSY+ICN+20.png" alt="Celtics Tatum Back">
+            <button class="buy-button"><i class="fas fa-cart-plus"></i>Comprar</button>
+        </div>
+    </div>
+</div>
+<!-- 08 - Golden State Warriors Curry -->
+<div class="flip-card" data-name="Ja Morant Memphis Grizzlies 2025/26 Select Series" data-price="$142">
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/3950293b-a403-43c3-b83c-6dcb60a928d9/SEL+MNK+DF+JSY+V5+MORANT.png" alt="Warriors Curry Front">
+            <div class="product-name">Ja Morant Memphis Grizzlies 2025/26 Select Series</div>
+            <div class="product-price">38</div>
+        </div>
+        <div class="flip-card-back">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/7c653496-e44d-4d55-9410-68b1ced0ae0f/SEL+MNK+DF+JSY+V5+MORANT.png" alt="Warriors Curry Back">
+            <button class="buy-button"><i class="fas fa-cart-plus"></i>Comprar</button>
+        </div>
+    </div>
+</div>
+<!-- 09 - Milwaukee Bucks Giannis -->
+<div class="flip-card" data-name="Stephen Curry Golden State Warriors 2025/26 Select Series" data-price="$139">
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/e1db4556-a26b-4191-9bfe-3ef79a7f0638/SEL+MNK+DF+JSY+V5+CURRY.png" alt="Bucks Giannis Front">
+            <div class="product-name">Stephen Curry Golden State Warriors 2025/26 Select Series</div>
+            <div class="product-price">$15</div>
+        </div>
+        <div class="flip-card-back">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/0a8aa3e6-4344-4ef2-9850-e689a851b783/SEL+MNK+DF+JSY+V5+CURRY.png" alt="Bucks Giannis Back">
+            <button class="buy-button"><i class="fas fa-cart-plus"></i>Comprar</button>
+        </div>
+    </div>
+</div>
+<!-- 10 - Miami Heat Jimmy Butler -->
+<div class="flip-card" data-name="Giannis Antetokounmpo Milwaukee Bucks 2024/25 City Edition" data-price="$128">
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/bb67cb9c-7d57-4ee3-ab4a-a1fbb0a03a4b/MIL+MNK+DFADV+ATH+JSY+CE+24.png" alt="Heat Butler Front">
+            <div class="product-name">Giannis Antetokounmpo Milwaukee Bucks 2024/25 City Edition</div>
+            <div class="product-price">$12</div>
+        </div>
+        <div class="flip-card-back">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/8bcd9e1e-39e5-4c98-abff-87db2eaca2d5/MIL+MNK+DFADV+ATH+JSY+CE+24.png" alt="Heat Butler Back">
+            <button class="buy-button"><i class="fas fa-cart-plus"></i>Comprar</button>
+        </div>
+    </div>
+</div>
+<!-- 11 - Dallas Mavericks Doncic -->
+<div class="flip-card" data-name="Jimmy Butler Miami Heat 2024/25 City Edition" data-price="$133">
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/c1f6f37b-5333-43e5-9ed9-00a5de3f232d/MIA+MNK+DF+SWGMN+JSY+CE+24.png" alt="Mavericks Doncic Front">
+            <div class="product-name">Jimmy Butler Miami Heat 2024/25 City Edition</div>
+            <div class="product-price">$10</div>
+        </div>
+        <div class="flip-card-back">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/90365684-d186-462e-8159-28092a4b2513/MIA+MNK+DF+SWGMN+JSY+CE+24.png" alt="Mavericks Doncic Back">
+            <button class="buy-button"><i class="fas fa-cart-plus"></i>Comprar</button>
+        </div>
+    </div>
+</div>
+<!-- 12 - Brooklyn Nets Simmons -->
+<div class="flip-card" data-name="Kevin Durant Phoenix Suns 2025/26 Select Series" data-price="$127">
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/4851b63c-0878-4bb8-b402-49dcc0116334/SEL+MNK+DF+JSY+V5+DURANT.png" alt="Nets Simmons Front">
+            <div class="product-name">Kevin Durant Phoenix Suns 2025/26 Select Series   </div>
+            <div class="product-price">$20</div>
+        </div>
+        <div class="flip-card-back">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/2e731272-7455-4519-a431-56b82ac2e94b/SEL+MNK+DF+JSY+V5+DURANT.png" alt="Nets Simmons Back">
+            <button class="buy-button"><i class="fas fa-cart-plus"></i>Comprar</button>
+        </div>
+    </div>
+</div>
+<!-- 13 - Chicago Bulls DeRozan -->
+<div class="flip-card" data-name="Joel Embiid Philadelphia 76ers 2025/26 Select Series" data-price="$135">
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/e313c6c5-11be-4b3e-b30e-64fd3cbaae1d/SEL+MNK+DF+JSY+V5+EMBIID.png" alt="Bulls DeRozan Front">
+            <div class="product-name">Joel Embiid Philadelphia 76ers 2025/26 Select Series</div>
+            <div class="product-price">$35</div>
+        </div>
+        <div class="flip-card-back">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/70001d14-1ebe-4d36-bdea-2765310bf620/SEL+MNK+DF+JSY+V5+EMBIID.png" alt="Bulls DeRozan Back">
+            <button class="buy-button"><i class="fas fa-cart-plus"></i>Comprar</button>
+        </div>
+    </div>
+</div>
+<!-- 14 - Phoenix Suns Kevin Durant -->
+<div class="flip-card" data-name="Tyrese Haliburton Indiana Pacers 2024/25 City Edition" data-price="$131">
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/38296b38-c9dc-4bbe-9a0d-f1e7f5e119f6/BOYS+CITY+EDITION+SWINGMAN+JER.png" alt="Suns Durant Front">
+            <div class="product-name">Tyrese Haliburton Indiana Pacers 2024/25 City Edition</div>
+            <div class="product-price">$40</div>
+        </div>
+        <div class="flip-card-back">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/73a594d0-eb3f-41ea-a1cf-0d0e02a7b3c5/BOYS+CITY+EDITION+SWINGMAN+JER.png" alt="Suns Durant Back">
+            <button class="buy-button"><i class="fas fa-cart-plus"></i>Comprar</button>
+        </div>
+    </div>
+</div>
+<!-- 15 - Philadelphia 76ers Embiid -->
+<div class="flip-card" data-name="Zion Williamson New Orleans Pelican City Edition 2023/24
+" data-price="$138">
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/e53c5d2e-3f01-4d48-b9c1-528983ecfb2f/NOP+MNK+DF+SWGMN+JSY+CE+23.png" alt="Sixers Embiid Front">
+            <div class="product-name">Zion Williamson New Orleans Pelican City Edition 2023/24</div>
+            <div class="product-price">$20</div>
+        </div>
+        <div class="flip-card-back">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/cc6b432b-31f7-4212-b2cc-69b1f3493908/NOP+MNK+DF+SWGMN+JSY+CE+23.png" alt="Sixers Embiid Back">
+            <button class="buy-button"><i class="fas fa-cart-plus"></i>Comprar</button>
+        </div>
+    </div>
+</div>
+<!-- 16 - Los Angeles Clippers Kawhi Leonard -->
+<div class="flip-card" data-name="Bam Adebayo Miami Heat City Edition 2023/24" data-price="$129">
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/dff3bc7c-5039-48ba-831a-4d9aed2e7ce4/MIA+MNK+DF+SWGMN+JSY+CE+23.png" alt="Clippers Leonard Front">
+            <div class="product-name">Clippers Icon - Leonard</div>
+            <div class="product-price">$10</div>
+        </div>
+        <div class="flip-card-back">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/b09029d3-9b3d-4f01-9eaa-0e8894550db7/MIA+MNK+DF+SWGMN+JSY+CE+23.png" alt="Clippers Leonard Back">
+            <button class="buy-button"><i class="fas fa-cart-plus"></i>Comprar</button>
+        </div>
+    </div>
+</div>
+<!-- 17 - Denver Nuggets Jokic -->
+<div class="flip-card" data-name="San Antonio Spurs Association Edition 2022/23" data-price="$140">
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/487bee1e-99f8-419b-a26a-e2bc1eaf3b37/SAS+MNK+DF+SWGMN+JSY+ASC+22.png" alt="Nuggets Jokic Front">
+            <div class="product-name">San Antonio Spurs Association Edition 2022/23</div>
+            <div class="product-price">$15</div>
+        </div>
+        <div class="flip-card-back">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/30d9fb7a-92b2-480d-a27f-631dea4c761b/SAS+MNK+DF+SWGMN+JSY+ASC+22.png" alt="Nuggets Jokic Back">
+            <button class="buy-button"><i class="fas fa-cart-plus"></i>Comprar</button>
+        </div>
+    </div>
+</div>
+<!-- 18 - Toronto Raptors Scottie Barnes -->
+<div class="flip-card" data-name="Raptors Statement Barnes" data-price="$125">
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/912bcc06-e983-455e-a48b-9efb9b62fd28/LAC+MNK+DF+SWGMN+JSY+ICN+22.png" alt="Raptors Barnes front">
+            <div class="product-name">LA Clippers Icon Edition 2022/23</div>
+            <div class="product-price">$25</div>
+        </div>
+        <div class="flip-card-back">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/612a1fc6-b89d-4a49-aaae-a6d2ae3c0f36/LAC+MNK+DF+SWGMN+JSY+ICN+22.png" alt="Raptors Barnes back">
+            <button class="buy-button"><i class="fas fa-cart-plus"></i>Comprar</button>
+        </div>
+    </div>
+</div>
+<!-- 19 - Houston Rockets Jalen Green -->
+<div class="flip-card" data-name="Anthony Edwards Minnesota Timberwolves 2024/25 City Edition" data-price="$119">
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/4138cec0-13ef-424b-8f14-d2b88b4eb2d9/MIN+MNK+DF+SWGMN+JSY+CE+24.png" alt="Rockets Green front">
+            <div class="product-name">Minnesota Timberwolves 2024/25 City Edition</div>
+            <div class="product-price">$10</div>
+        </div>
+        <div class="flip-card-back">
+            <img class="jersey-img" src="https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/0c8d8aa8-2028-40bb-b805-d3a19361c78f/MIN+MNK+DF+SWGMN+JSY+CE+24.png" alt="Rockets Green back">
+            <button class="buy-button"><i class="fas fa-cart-plus"></i>Comprar</button>
+        </div>
+    </div>
+</div>
+<div class="plain-jersey-card" data-name="Luka Dončić Los Angeles Lakers Black Mamba Jersey" data-price="$20">
+    <img class="plain-jersey-img" src="https://i.ebayimg.com/images/g/~3oAAOSw649npCR5/s-l1200.jpg" alt="USA Dream Team 92">
+    <div class="product-name">Luka Dončić Los Angeles Lakers Black Mamba Jersey</div>
+    <div class="product-price">$20</div>
+    <button class="buy-button"><i class="fas fa-cart-plus"></i>Comprar</button>
+</div>
+        </div>
+        </div>
+    </div>
+    <!-- Modal de detalles de producto (el que ya tienes) -->
+    <div id="detailModal" class="detail-modal">
+        <div class="detail-modal-content">
+            <span class="close-button">&times;</span>
+            <img id="detail-image" src="" alt="">
+            <h2 id="detail-name">Nombre</h2>
+            <div id="detail-price">$0</div>
+            <div class="size-selector" style="display:none;">
+                <span>Talla:</span>
+                <div class="size-buttons"></div>
+            </div>
+            <button class="buy-button" id="detail-buy-button"><i class="fas fa-cart-plus"></i>Comprar</button>
+        </div>
+    </div>
+    <!-- Modal del carrito -->
+    <div id="cartModal" class="cart-modal">
+        <div class="cart-modal-content">
+            <span class="close-button" onclick="closeCartModal()">&times;</span>
+            <h2 style="text-align:center;font-size:22px;margin-bottom:13px;">Carrito de Compras</h2>
+            <div class="cart-items"></div>
+            <div class="cart-total">
+                Total: $<span id="cartTotal">0</span>
+            </div>
+            <button id="whatsapp-checkout" class="buy-button" onclick="checkoutWhatsApp()">
+                <i class="fab fa-whatsapp"></i>
+                Hacer Pedido por WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // === Carrito global (localStorage) ===
+        function getGlobalCart() {
+            try { return JSON.parse(localStorage.getItem('globalCart')) || []; }
+            catch(e){ return []; }
+        }
+        function setGlobalCart(cartItems) { localStorage.setItem('globalCart', JSON.stringify(cartItems)); }
+        function addToCartGlobal(item) {
+            const cart = getGlobalCart();
+            cart.push(item);
+            setGlobalCart(cart);
+        }
+        function removeFromCartGlobal(index) {
+            const cart = getGlobalCart();
+            cart.splice(index, 1);
+            setGlobalCart(cart);
+        }
+        function updateGlobalCartCount() {
+            document.querySelectorAll('.cart-count').forEach(elem => {
+                elem.textContent = getGlobalCart().length;
+            });
+        }
+        function showAddedToCartMessage() {
+            const message = document.createElement('div');
+            message.className = 'cart-notification';
+            message.textContent = '¡Producto agregado al carrito!';
+            document.body.appendChild(message);
+            setTimeout(() => {
+                message.style.opacity = '0';
+                setTimeout(() => message.remove(), 300);
+            }, 1800);
+        }
+        // === Modal de carrito: SIEMPRE muestra los items guardados en localStorage ===
+        function openCartModal() {
+            const cartModal = document.getElementById('cartModal');
+            const cartItemsContainer = cartModal.querySelector('.cart-items');
+            cartItemsContainer.innerHTML = '';
+            let total = 0;
+            const cartItems = getGlobalCart();
+
+            cartItems.forEach(function(item, index) {
+                const price = parseFloat(item.price.replace('$', '')) || 0;
+                total += price;
+                const itemElement = document.createElement('div');
+                itemElement.className = 'cart-item';
+                itemElement.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="cart-item-details">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-price">${item.price}</div>
+                    </div>
+                    <button title="Quitar" onclick="removeFromCart(${index})">&times;</button>
+                `;
+                cartItemsContainer.appendChild(itemElement);
+            });
+            document.getElementById('cartTotal').textContent = total.toFixed(2);
+            cartModal.style.display = 'block';
+        }
+        function closeCartModal() {
+            document.getElementById('cartModal').style.display = 'none';
+        }
+        function removeFromCart(index) {
+            removeFromCartGlobal(index);
+            updateGlobalCartCount();
+            openCartModal();
+        }
+        // === WhatsApp checkout global ===
+        function checkoutWhatsApp() {
+            let message = "¡Hola! Me gustaría hacer un pedido:\n\n";
+            let total = 0;
+            const cartItems = getGlobalCart();
+            cartItems.forEach(function(item) {
+                const price = parseFloat(item.price.replace('$', '')) || 0;
+                message += `• ${item.name} - ${item.price}\n`;
+                total += price;
+            });
+            message += `\nTotal: $${total.toFixed(2)}`;
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://api.whatsapp.com/send/?phone=%2B5804129983853&text=${encodedMessage}&type=phone_number&app_absent=0`;
+            window.open(whatsappUrl, '_blank');
+        }
+        // === Integración con los productos para agregar al carrito ===
+        document.querySelectorAll('.flip-card').forEach(card => {
+            card.addEventListener('click', function(event) {
+                // Only open modal when click is NOT on button in back
+                if(event.target.classList.contains('buy-button')) return;
+                // Desplegar modal de detalles (puedes mejorarlo para tallas si quieres)
+                const front = card.querySelector('.flip-card-front');
+                const back = card.querySelector('.flip-card-back');
+                const name = card.getAttribute('data-name') || (front ? front.querySelector('.product-name').textContent : '');
+                const price = card.getAttribute('data-price') || (front ? front.querySelector('.product-price').textContent : '');
+                const img = front ? front.querySelector('img.jersey-img') : null;
+                // Rellenar modal de detalles
+                document.getElementById('detail-image').src = img ? img.src : '';
+                document.getElementById('detail-name').textContent = name || '';
+                document.getElementById('detail-price').textContent = price || '';
+                document.getElementById('detailModal').style.display = "block";
+                // Si tienes tallas, aquí podrías mostrar la sección "size-selector"
+            });
+        });
+        // Cuando pulsan "Comprar" en flip-card-back directamente
+        document.querySelectorAll('.flip-card-back .buy-button').forEach(btn => {
+            btn.addEventListener('click', function(e){
+                e.stopPropagation();
+                const card = btn.closest('.flip-card');
+                const name = card.getAttribute('data-name');
+                const price = card.getAttribute('data-price');
+                // Usa la imagen del lado "front" para que siempre sea la misma
+                const img = card.querySelector('.flip-card-front img.jersey-img');
+                const image = img ? img.src : '';
+                addToCartGlobal({ name, price, image });
+                updateGlobalCartCount();
+                showAddedToCartMessage();
+            });
+        });
+        // Cuando pulsan "Comprar" en el modal de detalles
+        const detailBuyButton = document.getElementById('detail-buy-button');
+        if (detailBuyButton) {
+            detailBuyButton.onclick = function() {
+                const name = document.getElementById('detail-name').textContent;
+                const price = document.getElementById('detail-price').textContent;
+                const image = document.getElementById('detail-image').src;
+                addToCartGlobal({ name, price, image });
+                updateGlobalCartCount();
+                showAddedToCartMessage();
+                document.getElementById('detailModal').style.display = "none";
+            };
+        }
+        // Modal cerrar
+        document.querySelectorAll('.close-button').forEach(btn=> {
+            btn.onclick = function(){
+                const modal = btn.closest('.detail-modal,.cart-modal');
+                if(modal) modal.style.display="none";
+            }
+        });
+        // Cerrar modal si haces clic afuera
+        window.onclick = function(event) {
+            // Modal de detalles
+            const detailModal = document.getElementById('detailModal');
+            if(event.target == detailModal) detailModal.style.display = "none";
+            // Modal de carrito
+            const cartModal = document.getElementById('cartModal');
+            if(event.target == cartModal) cartModal.style.display = "none";
+        };
+        // Cargar el contador del carrito al iniciar
+        document.addEventListener('DOMContentLoaded', updateGlobalCartCount);
+    </script>
+</body>
+</html>
